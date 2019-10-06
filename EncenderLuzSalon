@@ -1,0 +1,41 @@
+//Encender Luz
+const int TriggerPin = PB10;
+const int EchoPin = PB11;
+const int BombilloBlanco = PB6;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(TriggerPin, OUTPUT);
+  pinMode(EchoPin, INPUT);
+  pinMode(BombilloBlanco, OUTPUT);
+
+}
+
+void loop() {
+  int cm = ping(TriggerPin, EchoPin);
+
+}
+
+int ping(int TriggerPin, int EchoPin) {
+  long duration, distanceCm;
+
+  digitalWrite(TriggerPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TriggerPin, HIGH);  //generamos Trigger (disparo) de 5ms
+  delayMicroseconds(5);
+  digitalWrite(TriggerPin, LOW);
+
+  duration = pulseIn(EchoPin, HIGH);  //medimos el tiempo entre pulsos, en microseg
+
+  distanceCm = duration * 10 / 292 / 2;  //convertimos a distancia, en cm
+
+  if (distanceCm <= 25) {
+    digitalWrite(BombilloBlanco, HIGH);
+    delay(30000);
+    digitalWrite(BombilloBlanco, LOW);
+  }
+
+  else {
+    digitalWrite(BombilloBlanco, LOW);
+  }
+}
